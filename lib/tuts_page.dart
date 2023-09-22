@@ -107,7 +107,7 @@ class TutsPage extends StatelessWidget {
           onPressed: () {
             logger.d('Button pressed');
           },
-          child: Stack(
+          child: Column(
             children: [
               Icon(icon, color: color),
               Container(
