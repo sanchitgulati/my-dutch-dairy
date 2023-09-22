@@ -1,6 +1,6 @@
+import 'calender.dart';
 import 'tuts_page.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'loading_screen.dart'; // Import the loading screen
 import 'home_page.dart'; // Import the home page
 
@@ -24,6 +24,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const LoadingScreen(), // Route to the loading screen
         '/next': (context) => const TutsPage(), // Route to the next screen
+        '/calender': (context) => const Calender(), // Route to the next screen
+        '/home': (context) => const MyHomePage(), // Route to the next screen
       },
     );
   }
