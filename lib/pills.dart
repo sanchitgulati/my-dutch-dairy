@@ -21,24 +21,9 @@ class _PillWidgetState extends State<PillWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: GestureDetector(
-        onTap: onClick,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          decoration: BoxDecoration(
-            color: Colors.blue,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Text(
-            index == 0 ? widget.label : widget.label2,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
-          ),
-        ),
-      ),
+    return OutlinedButton(
+      onPressed: onClick,
+      child: index == 0 ? Text(widget.label) : Text(widget.label2),
     );
   }
 }

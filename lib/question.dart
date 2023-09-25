@@ -27,19 +27,6 @@ class _QuestionState extends State<Question> {
   void initState() {
     super.initState();
     _loadQnAList();
-
-    List<MapEntry<String, String>> keyValuePairs = [
-      const MapEntry("Weer", "weather"),
-      const MapEntry("Temperatuur", "temperature"),
-      const MapEntry("Zonnig", "sunny"),
-      const MapEntry("Regenachtig", "rainy"),
-      const MapEntry("Sneeuw", "snow"),
-    ];
-
-    pillWidgets = keyValuePairs.map((entry) {
-      print(entry);
-      return PillWidget(label: entry.key, label2: entry.value);
-    }).toList();
   }
 
   List<MapEntry<String, String>> parseKeyValuePairs(String input) {
@@ -96,11 +83,14 @@ class _QuestionState extends State<Question> {
   }
 
   void _pickRandomQnA() {
-    print(qnaList.length);
     if (qnaList.isNotEmpty) {
       final newQnAIndex = random.nextInt(qnaList.length);
       setState(() {
         currentQnAIndex = newQnAIndex;
+        final keyValuePairs = qnaList[currentQnAIndex].keyValuePairs;
+        pillWidgets = keyValuePairs.map((entry) {
+          return PillWidget(label: entry.key, label2: entry.value);
+        }).toList();
       });
     }
   }
@@ -118,8 +108,8 @@ class _QuestionState extends State<Question> {
             style: const TextStyle(fontSize: 24),
           ),
         if (currentQnAIndex != -1)
-          ListView(
-            children: [PillWidget(label: "Test", label2: "Test2")],
+          Column(
+            children: pillWidgets,
           ),
         TextButton(
           onPressed: _pickRandomQnA,
