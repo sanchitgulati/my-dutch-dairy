@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart'; // Import the home page
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
