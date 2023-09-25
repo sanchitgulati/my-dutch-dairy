@@ -3,12 +3,12 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 enum WeekStartFrom {
-  Sunday,
-  Monday,
+  sunday,
+  monday,
 }
 
 class HorizontalWeekCalendar extends StatefulWidget {
-  /// week start from [WeekStartFrom.Monday]
+  /// week start from [WeekStartFrom.monday]
   final WeekStartFrom? weekStartFrom;
 
   ///get DateTime on date select
@@ -29,7 +29,7 @@ class HorizontalWeekCalendar extends StatefulWidget {
 
   /// Disable background color
   ///
-  /// Default value [Colors.grey]
+  /// Default value [Colors.red]
   final Color? disabledBackgroundColor;
 
   /// Active text color
@@ -75,7 +75,7 @@ class HorizontalWeekCalendar extends StatefulWidget {
     this.activeNavigatorColor,
     this.inactiveNavigatorColor,
     this.monthColor,
-    this.weekStartFrom = WeekStartFrom.Monday,
+    this.weekStartFrom = WeekStartFrom.monday,
   });
 
   @override
@@ -116,7 +116,7 @@ class _HorizontalWeekCalendarState extends State<HorizontalWeekCalendar> {
 
     final date = DateTime.now();
 
-    DateTime startOfCurrentWeek = widget.weekStartFrom == WeekStartFrom.Monday
+    DateTime startOfCurrentWeek = widget.weekStartFrom == WeekStartFrom.monday
         ? getDate(date.subtract(Duration(days: date.weekday - 1)))
         : getDate(date.subtract(Duration(days: date.weekday % 7)));
 
