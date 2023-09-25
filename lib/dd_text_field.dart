@@ -20,8 +20,6 @@ class _MyHomePageState extends State<DdTextField> {
     setState(() {
       inputValue = value; // Update the inputValue variable
     });
-    // You can call other functions or perform any desired actions here
-    logger.d('Text field value changed: $value');
   }
 
   @override
@@ -31,6 +29,9 @@ class _MyHomePageState extends State<DdTextField> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         TextField(
+          keyboardType: TextInputType.multiline,
+          maxLines: 10,
+          minLines: 5,
           onChanged:
               handleTextChange, // Call this function when the text field changes
           decoration: const InputDecoration(

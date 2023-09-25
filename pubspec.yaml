@@ -40,6 +40,7 @@ dependencies:
   logger: ^2.0.2
   intl: ^0.18.1
   carousel_slider: ^4.2.1
+  local_auth: ^2.1.7
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +61,7 @@ flutter:
   assets:
     - assets/images/logo.png
     - assets/images/lake.jpg
+    - assets/questions.tsv
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
