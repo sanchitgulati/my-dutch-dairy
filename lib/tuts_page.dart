@@ -81,7 +81,7 @@ class TutsPage extends StatelessWidget {
         body: ListView(
           children: [
             Image.asset(
-              'images/lake.jpg',
+              'assets/images/lake.jpg',
               width: 600,
               height: 240,
               fit: BoxFit.cover,

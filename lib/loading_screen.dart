@@ -15,7 +15,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     // Add a delay of 3 seconds before changing the route
     Future.delayed(const Duration(seconds: 1), () {
       // Replace 'YourNewRoute' with the route you want to navigate to after 3 seconds
-      Navigator.of(context).pushReplacementNamed('/next');
+      Navigator.of(context).pushReplacementNamed('/calender');
     });
   }
 

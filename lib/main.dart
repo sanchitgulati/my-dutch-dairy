@@ -25,7 +25,9 @@ class MyApp extends StatelessWidget {
         '/': (context) => const LoadingScreen(), // Route to the loading screen
         '/next': (context) => const TutsPage(), // Route to the next screen
         '/calender': (context) => const Calender(), // Route to the next screen
-        '/home': (context) => const MyHomePage(), // Route to the next screen
+        '/home': (context) => const MyHomePage(
+              title: "Hallo",
+            ), // Route to the next screen
       },
     );
   }

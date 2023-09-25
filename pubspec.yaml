@@ -38,7 +38,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_keyboard_visibility: ^5.4.1
   logger: ^2.0.2
-  horizontal_week_calendar: ^0.0.11
+  intl: ^0.18.1
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:

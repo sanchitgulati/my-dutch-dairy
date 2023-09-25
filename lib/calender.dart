@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:horizontal_week_calendar/horizontal_week_calendar.dart';
+import 'horizontal_week_calendar.dart';
 
 class Calender extends StatefulWidget {
   const Calender({super.key});
