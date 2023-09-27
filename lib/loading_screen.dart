@@ -32,9 +32,18 @@ class _LoadingScreenState extends State<LoadingScreen> {
       } else {
         // Biometric authentication failed or user canceled
         // Handle this as needed
+
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Failed or Cancelled"),
+        ));
+        proceed();
       }
     } catch (e) {
       // Handle errors
+      proceed();
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Handle errors"),
+      ));
     }
   }
 
@@ -65,15 +74,25 @@ class _LoadingScreenState extends State<LoadingScreen> {
             },
             child: const Text('Authenticate with Biometrics'),
           )
-        : const SizedBox();
+        : TextButton(
+            onPressed: () async {
+              final hasBiometrics = await checkBiometrics();
+              if (hasBiometrics) {
+                await authenticate();
+              } else {
+                proceed();
+                // Biometrics not available on this device
+              }
+            },
+            child: const Text('Continue'),
+          );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Stack(
-          alignment: Alignment.center,
+        child: Column(
           children: [
             Image.asset('assets/images/logo.png'),
             showBiometrics(),

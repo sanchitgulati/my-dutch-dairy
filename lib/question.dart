@@ -11,7 +11,10 @@ class QnA {
 }
 
 class Question extends StatefulWidget {
-  const Question({super.key});
+  const Question(
+      {super.key, required this.questionId, required this.onChanged});
+  final int questionId;
+  final ValueChanged<int> onChanged;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -75,7 +78,8 @@ class _QuestionState extends State<Question> {
 
       setState(() {
         qnaList = qnas;
-        _pickRandomQnA();
+        _pickQ(widget.questionId);
+        // _pickRandomQnA();
       });
     } catch (e) {
       print('Error loading Q&A data: $e');
@@ -91,6 +95,23 @@ class _QuestionState extends State<Question> {
         pillWidgets = keyValuePairs.map((entry) {
           return PillWidget(label: entry.key, label2: entry.value);
         }).toList();
+
+        widget.onChanged(newQnAIndex);
+      });
+    }
+  }
+
+  void _pickQ(int id) {
+    if (id == -1) {
+      _pickRandomQnA();
+      return;
+    }
+    if (qnaList.isNotEmpty) {
+      setState(() {
+        final keyValuePairs = qnaList[id].keyValuePairs;
+        pillWidgets = keyValuePairs.map((entry) {
+          return PillWidget(label: entry.key, label2: entry.value);
+        }).toList();
       });
     }
   }
@@ -99,6 +120,8 @@ class _QuestionState extends State<Question> {
 
   @override
   Widget build(BuildContext context) {
+    currentQnAIndex = widget.questionId;
+    print("currentQnAIndex " + widget.questionId.toString());
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -108,7 +131,7 @@ class _QuestionState extends State<Question> {
             style: const TextStyle(fontSize: 24),
           ),
         if (currentQnAIndex != -1)
-          Column(
+          Row(
             children: pillWidgets,
           ),
         TextButton(

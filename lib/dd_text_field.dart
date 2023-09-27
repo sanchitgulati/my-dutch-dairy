@@ -4,35 +4,54 @@ import 'package:logger/logger.dart';
 final logger = Logger();
 
 class DdTextField extends StatefulWidget {
-  const DdTextField({super.key, required this.title});
+  const DdTextField({super.key, required this.text, required this.onChanged});
 
-  final String title;
-
+  final String text;
+  final ValueChanged<String> onChanged;
   @override
-  State<DdTextField> createState() => _MyHomePageState();
+  State<DdTextField> createState() => _DdTextFieldState();
 }
 
-class _MyHomePageState extends State<DdTextField> {
-  String inputValue = ''; // Variable to store the current text field value
+class _DdTextFieldState extends State<DdTextField> {
+  TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.text);
+  }
 
   // Function to be called when the text field value changes
   void handleTextChange(String value) {
     setState(() {
-      inputValue = value; // Update the inputValue variable
+      // Call the callback function to notify the parent of the text change
+      widget.onChanged(_controller.text);
     });
+  }
+
+  void editingComplete() {}
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    _controller.text = widget.text;
     return Center(
         child: CustomPaint(
       foregroundPainter: PagePainter(),
       child: TextField(
+        controller: _controller,
         keyboardType: TextInputType.multiline,
         minLines: 10,
         maxLines: null,
-        onChanged:
-            handleTextChange, // Call this function when the text field changes
+        onEditingComplete: editingComplete,
+        onChanged: (newValue) {
+          widget.onChanged(newValue); // Notify the parent of changes
+        },
         decoration: const InputDecoration(
           border: InputBorder.none,
           hintText: 'Type something', // Shown when the field is empty
