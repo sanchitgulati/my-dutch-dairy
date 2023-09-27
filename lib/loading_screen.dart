@@ -52,7 +52,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   Widget showBiometrics() {
-    return !kReleaseMode
+    return kReleaseMode
         ? TextButton(
             onPressed: () async {
               final hasBiometrics = await checkBiometrics();

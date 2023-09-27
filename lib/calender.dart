@@ -38,7 +38,7 @@ class _HorizontalWeekCalendarPackageState extends State<Calender> {
     Widget listView = ListView(children: [
       selectedDateWidget,
       textSection,
-      const DdTextField(title: 'How did you start your morning?'),
+      DdTextField(title: 'How did you start your morning?'),
     ]);
 
     return Scaffold(
