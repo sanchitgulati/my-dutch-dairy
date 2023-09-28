@@ -34,24 +34,30 @@ class _DdTextFieldState extends State<DdTextField> {
     return Center(
         child: CustomPaint(
       foregroundPainter: PagePainter(),
-      child: TextField(
-        controller: _controller,
-        keyboardType: TextInputType.multiline,
-        minLines: 10,
-        maxLines: null,
-        onEditingComplete: editingComplete,
-        onChanged: (newValue) {
-          context.read<DataStore>().updateTextField(_controller.text);
+      child: Consumer<DataStore>(
+        builder: (context, dataStore, _) {
+          // Update the text in the TextField when DataStore is updated
+          _controller.text = dataStore.selectedQuestion.text;
+          return TextField(
+            controller: _controller,
+            keyboardType: TextInputType.multiline,
+            minLines: 10,
+            maxLines: null,
+            onChanged: (newValue) {
+              context.read<DataStore>().updateTextField(_controller.text);
+            },
+            onEditingComplete: editingComplete,
+            style: const TextStyle(
+              fontSize: 16.0, // Adjust the font size as needed
+              height: 1.9, // Adjust the line height (line spacing) as needed
+            ),
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Type something', // Shown when the field is empty
+            ),
+            // Other properties like controller, onChanged, etc. can be added here
+          );
         },
-        style: const TextStyle(
-          fontSize: 16.0, // Adjust the font size as needed
-          height: 1.9, // Adjust the line height (line spacing) as needed
-        ),
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          hintText: 'Type something', // Shown when the field is empty
-        ),
-        // Other properties like controller, onChanged, etc. can be added here
       ),
     )); // This trailing comma makes auto-formatting nicer for build methods.
   }

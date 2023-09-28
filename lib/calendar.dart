@@ -14,7 +14,7 @@ class Calendar extends StatelessWidget {
     Widget textSection =
         Question(q: context.read<DataStore>().selectedQuestion);
 
-    Widget dd = DdTextField();
+    const Widget dd = DdTextField();
 
     Widget listView = ListView(children: [
       const SelectedDateWidget(),

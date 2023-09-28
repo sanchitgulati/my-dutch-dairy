@@ -10,8 +10,8 @@ class DataStore extends ChangeNotifier {
   Random random = Random();
   List<QnA> qnaList = [];
   var currentText = "";
-  QnA selectedQuestion =
-      QnA(questionEnglish: "english", question: "question", words: []);
+  QnA selectedQuestion = QnA(
+      text: "", questionEnglish: "english", question: "question", words: []);
   final LocalStorage storage = LocalStorage('some_key');
 
   var selectedDate = DateTime.now();
@@ -31,6 +31,7 @@ class DataStore extends ChangeNotifier {
           qnaList.add(QnA(
               questionEnglish: values[0],
               question: values[1],
+              text: "",
               words: parseKeyValuePairs(values[2])));
         }
       }
@@ -56,7 +57,10 @@ class DataStore extends ChangeNotifier {
       var words = qnaList[newQnAIndex].words;
       var questionEnglish = qnaList[newQnAIndex].questionEnglish;
       selectedQuestion = QnA(
-          questionEnglish: questionEnglish, question: question, words: words);
+          text: "",
+          questionEnglish: questionEnglish,
+          question: question,
+          words: words);
       notifyListeners();
     }
   }
