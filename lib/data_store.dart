@@ -39,6 +39,7 @@ class DataStore extends ChangeNotifier {
     } catch (e) {
       print('Error loading Q&A data: $e');
     }
+    getState();
   }
 
   void updateTextField(String newValue) {
@@ -112,14 +113,12 @@ class DataStore extends ChangeNotifier {
   }
 
   void getState() {
-    var temp = storage.getItem(DateFormat('dd_MMM_yyyy').format(selectedDate));
-    if (temp != null) {
-      textFieldValue = temp['text'];
-      qId = temp['question'];
+    var storedData =
+        storage.getItem(DateFormat('dd_MMM_yyyy').format(selectedDate));
+    if (storedData != null) {
+      _pickQ(storedData['questionId']);
     } else {
-      var newQnAIndex = random.nextInt(19);
-      textFieldValue = '';
-      qId = newQnAIndex;
+      _pickRandomQnA();
     }
     notifyListeners();
   }
