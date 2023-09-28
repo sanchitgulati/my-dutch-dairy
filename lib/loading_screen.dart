@@ -41,14 +41,15 @@ class _LoadingScreenState extends State<LoadingScreen> {
     } catch (e) {
       // Handle errors
       proceed();
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Handle errors"),
+      var err = e.toString();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(err),
       ));
     }
   }
 
   void proceed() {
-    Navigator.of(context).pushReplacementNamed('/calender');
+    Navigator.of(context).pushReplacementNamed('/calendar');
   }
 
   Future<bool> checkBiometrics() async {
