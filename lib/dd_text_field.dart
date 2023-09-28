@@ -52,6 +52,10 @@ class _DdTextFieldState extends State<DdTextField> {
         onChanged: (newValue) {
           widget.onChanged(newValue); // Notify the parent of changes
         },
+        style: const TextStyle(
+          fontSize: 16.0, // Adjust the font size as needed
+          height: 1.9, // Adjust the line height (line spacing) as needed
+        ),
         decoration: const InputDecoration(
           border: InputBorder.none,
           hintText: 'Type something', // Shown when the field is empty
@@ -66,11 +70,11 @@ class PagePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.blue
+      ..color = const Color.fromARGB(128, 29, 133, 181)
       ..strokeWidth = 1
       ..strokeCap = StrokeCap.round;
 
-    for (var x = 0.0; x <= size.height; x += 40) {
+    for (var x = 0.0; x <= size.height; x += 30.5) {
       canvas.drawLine(
         Offset(0, x),
         Offset(size.width, x),

@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:localstorage/localstorage.dart';
 import 'dart:math';
-import 'package:provider/provider.dart';
-import 'journal_entry.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
-import 'dart:math';
 
 class DataStore extends ChangeNotifier {
   var selectedDate = DateTime.now();
@@ -18,7 +15,6 @@ class DataStore extends ChangeNotifier {
   QnA selectedQuestion = QnA(question: "question", words: []);
 
   final LocalStorage storage = LocalStorage('some_key');
-  JournalEntry item = JournalEntry(questionId: 1, text: '');
 
   DataStore() {
     init();
@@ -49,7 +45,7 @@ class DataStore extends ChangeNotifier {
   }
 
   void addItem() {
-    item.text = textFieldValue;
+    selectedQuestion.text = textFieldValue;
     _saveToStorage();
     notifyListeners();
   }
@@ -68,14 +64,9 @@ class DataStore extends ChangeNotifier {
     }
   }
 
-  void _pickQ(int id) {
-    if (qnaList.isNotEmpty) {
-      final newQnAIndex = id;
-      var question = qnaList[newQnAIndex].question;
-      var words = qnaList[newQnAIndex].words;
-      selectedQuestion = QnA(question: question, words: words);
-      notifyListeners();
-    }
+  void _pickQ(QnA q) {
+    selectedQuestion = q;
+    notifyListeners();
   }
 
   List<MapEntry<String, String>> parseKeyValuePairs(String input) {
@@ -108,15 +99,16 @@ class DataStore extends ChangeNotifier {
   }
 
   void _saveToStorage() {
-    storage.setItem(
-        DateFormat('dd_MMM_yyyy').format(selectedDate), item.toJSONEncodable());
+    storage.setItem(DateFormat('dd_MMM_yyyy').format(selectedDate),
+        selectedQuestion.toJSONEncodable());
   }
 
   void getState() {
     var storedData =
         storage.getItem(DateFormat('dd_MMM_yyyy').format(selectedDate));
     if (storedData != null) {
-      _pickQ(storedData['questionId']);
+      print(storedData);
+      _pickQ(storedData);
     } else {
       _pickRandomQnA();
     }
@@ -129,7 +121,6 @@ class DataStore extends ChangeNotifier {
   }
 
   void onQuestionChange(int id) {
-    item.questionId = id;
     _saveToStorage();
     notifyListeners();
   }

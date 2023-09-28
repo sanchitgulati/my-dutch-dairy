@@ -12,10 +12,10 @@ class Calendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget textSection =
-        Question(q: context.watch<DataStore>().selectedQuestion);
+        Question(q: context.read<DataStore>().selectedQuestion);
 
     Widget dd = DdTextField(
-      text: context.watch<DataStore>().textFieldValue,
+      text: context.read<DataStore>().textFieldValue,
       onChanged: context.read<DataStore>().updateTextField,
     );
 
@@ -70,7 +70,7 @@ class Calendar extends StatelessWidget {
                   activeNavigatorColor: Colors.purple,
                   inactiveNavigatorColor: Colors.grey,
                   monthColor: Colors.purple,
-                  onDateChange: context.read<DataStore>().onDateChange),
+                  onDateChange: context.watch<DataStore>().onDateChange),
               Expanded(
                 child: listView,
               )
