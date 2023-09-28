@@ -7,14 +7,14 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
 class DataStore extends ChangeNotifier {
-  var selectedDate = DateTime.now();
-  String textFieldValue = '';
-  int qId = -1;
   Random random = Random();
   List<QnA> qnaList = [];
-  QnA selectedQuestion = QnA(question: "question", words: []);
-
+  var currentText = "";
+  QnA selectedQuestion =
+      QnA(questionEnglish: "english", question: "question", words: []);
   final LocalStorage storage = LocalStorage('some_key');
+
+  var selectedDate = DateTime.now();
 
   DataStore() {
     init();
@@ -28,25 +28,20 @@ class DataStore extends ChangeNotifier {
       for (int i = 1; i < lines.length; i++) {
         final List<String> values = lines[i].split('\t');
         if (values.length >= 3) {
-          qnaList.add(
-              QnA(question: values[1], words: parseKeyValuePairs(values[2])));
+          qnaList.add(QnA(
+              questionEnglish: values[0],
+              question: values[1],
+              words: parseKeyValuePairs(values[2])));
         }
       }
     } catch (e) {
       print('Error loading Q&A data: $e');
     }
-    getState();
+    getState(DateTime.now());
   }
 
   void updateTextField(String newValue) {
-    textFieldValue = newValue;
-    _saveToStorage();
-    notifyListeners();
-  }
-
-  void addItem() {
-    selectedQuestion.text = textFieldValue;
-    _saveToStorage();
+    selectedQuestion.text = newValue;
     notifyListeners();
   }
 
@@ -59,7 +54,9 @@ class DataStore extends ChangeNotifier {
       final newQnAIndex = random.nextInt(qnaList.length);
       var question = qnaList[newQnAIndex].question;
       var words = qnaList[newQnAIndex].words;
-      selectedQuestion = QnA(question: question, words: words);
+      var questionEnglish = qnaList[newQnAIndex].questionEnglish;
+      selectedQuestion = QnA(
+          questionEnglish: questionEnglish, question: question, words: words);
       notifyListeners();
     }
   }
@@ -98,17 +95,20 @@ class DataStore extends ChangeNotifier {
     return keyValuePairs;
   }
 
-  void _saveToStorage() {
-    storage.setItem(DateFormat('dd_MMM_yyyy').format(selectedDate),
-        selectedQuestion.toJSONEncodable());
+  void save() {
+    var jsonDump = selectedQuestion.toJson();
+    storage.setItem(DateFormat('dd_MMM_yyyy').format(selectedDate), jsonDump);
+    print("save: ");
+    print(jsonDump);
   }
 
-  void getState() {
-    var storedData =
-        storage.getItem(DateFormat('dd_MMM_yyyy').format(selectedDate));
+  void getState(DateTime date) {
+    var storedData = storage.getItem(DateFormat('dd_MMM_yyyy').format(date));
+    QnA q;
     if (storedData != null) {
-      print(storedData);
-      _pickQ(storedData);
+      q = QnA.fromJson(storedData);
+      _pickQ(q);
+      currentText = q.text;
     } else {
       _pickRandomQnA();
     }
@@ -121,12 +121,11 @@ class DataStore extends ChangeNotifier {
   }
 
   void onQuestionChange(int id) {
-    _saveToStorage();
     notifyListeners();
   }
 
   void onDateChange(DateTime date) {
     selectedDate = date;
-    getState();
+    getState(date);
   }
 }

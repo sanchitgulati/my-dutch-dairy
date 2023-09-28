@@ -14,10 +14,7 @@ class Calendar extends StatelessWidget {
     Widget textSection =
         Question(q: context.read<DataStore>().selectedQuestion);
 
-    Widget dd = DdTextField(
-      text: context.read<DataStore>().textFieldValue,
-      onChanged: context.read<DataStore>().updateTextField,
-    );
+    Widget dd = DdTextField();
 
     Widget listView = ListView(children: [
       const SelectedDateWidget(),
@@ -32,7 +29,7 @@ class Calendar extends StatelessWidget {
           Expanded(
             child: ElevatedButton(
               onPressed: () {
-                context.read<DataStore>().addItem();
+                context.read<DataStore>().save();
               },
               child: const Text('Save'),
             ),

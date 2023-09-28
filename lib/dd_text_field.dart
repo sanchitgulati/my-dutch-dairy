@@ -1,32 +1,24 @@
+import 'data_store.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
 final logger = Logger();
 
 class DdTextField extends StatefulWidget {
-  const DdTextField({super.key, required this.text, required this.onChanged});
-
-  final String text;
-  final ValueChanged<String> onChanged;
+  const DdTextField({super.key});
   @override
   State<DdTextField> createState() => _DdTextFieldState();
 }
 
 class _DdTextFieldState extends State<DdTextField> {
   TextEditingController _controller = TextEditingController();
+  var text = "";
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.text);
-  }
-
-  // Function to be called when the text field value changes
-  void handleTextChange(String value) {
-    setState(() {
-      // Call the callback function to notify the parent of the text change
-      widget.onChanged(_controller.text);
-    });
+    _controller = TextEditingController(text: text);
   }
 
   void editingComplete() {}
@@ -39,7 +31,6 @@ class _DdTextFieldState extends State<DdTextField> {
 
   @override
   Widget build(BuildContext context) {
-    _controller.text = widget.text;
     return Center(
         child: CustomPaint(
       foregroundPainter: PagePainter(),
@@ -50,7 +41,7 @@ class _DdTextFieldState extends State<DdTextField> {
         maxLines: null,
         onEditingComplete: editingComplete,
         onChanged: (newValue) {
-          widget.onChanged(newValue); // Notify the parent of changes
+          context.read<DataStore>().updateTextField(_controller.text);
         },
         style: const TextStyle(
           fontSize: 16.0, // Adjust the font size as needed
@@ -74,7 +65,7 @@ class PagePainter extends CustomPainter {
       ..strokeWidth = 1
       ..strokeCap = StrokeCap.round;
 
-    for (var x = 0.0; x <= size.height; x += 30.5) {
+    for (var x = 10.0; x <= size.height; x += 30.5) {
       canvas.drawLine(
         Offset(0, x),
         Offset(size.width, x),

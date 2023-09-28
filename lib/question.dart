@@ -12,9 +12,23 @@ class Question extends StatefulWidget {
 }
 
 class _QuestionState extends State<Question> {
+  int index = 0;
+  String displayText = "";
+
+  void _handleTextTap() {
+    setState(() {
+      index = (index + 1) % 2;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     List<PillWidget> pillWidgets = [];
+    if (index == 0) {
+      displayText = widget.q.question;
+    } else {
+      displayText = widget.q.questionEnglish;
+    }
     for (var i = 0; i < widget.q.words.length; i++) {
       pillWidgets.add(PillWidget(
         label: widget.q.words[i].key,
@@ -24,10 +38,12 @@ class _QuestionState extends State<Question> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          widget.q.question,
-          style: const TextStyle(fontSize: 24),
-        ),
+        GestureDetector(
+            onTap: _handleTextTap, // Specify the function to call when tapped
+            child: Text(
+              displayText,
+              style: const TextStyle(fontSize: 24),
+            )),
         Row(
           children: pillWidgets,
         )
