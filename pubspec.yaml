@@ -43,6 +43,7 @@ dependencies:
   local_auth: ^2.1.7
   localstorage: ^4.0.1+4
   provider: ^6.0.5
+  chat_gpt_sdk: ^2.2.5
 
 dev_dependencies:
   flutter_test:
