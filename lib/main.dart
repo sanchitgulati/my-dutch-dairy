@@ -1,4 +1,5 @@
 import 'package:diary_app/data_store.dart';
+import 'package:diary_app/home.dart';
 import 'calendar.dart';
 import 'tuts_page.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,9 @@ class MyApp extends StatelessWidget {
       title: 'My Dutch Dairy',
       initialRoute: '/', // Set the initial route to the loading screen
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.blueGrey[100],
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.purple)),
         useMaterial3: true,
       ),
 
@@ -37,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const LoadingScreen(), // Route to the loading screen
         '/next': (context) => const TutsPage(), // Route to the next screen
         '/calendar': (context) => const Calendar(), // Route to the next screen
+        '/home': (context) => MyHomePage()
       },
     );
   }

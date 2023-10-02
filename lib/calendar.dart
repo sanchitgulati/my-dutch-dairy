@@ -49,31 +49,16 @@ class Calendar extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false, // This line removes the back button;
+        title: Text('Make a story'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pushReplacementNamed('/home');
+          },
+        ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              HorizontalWeekCalendar(
-                  weekStartFrom: WeekStartFrom.monday,
-                  activeBackgroundColor: Colors.purple,
-                  activeTextColor: Colors.white,
-                  inactiveBackgroundColor: Colors.purple.withOpacity(.3),
-                  inactiveTextColor: Colors.white,
-                  disabledTextColor: Colors.grey,
-                  disabledBackgroundColor: Colors.grey.withOpacity(.3),
-                  activeNavigatorColor: Colors.purple,
-                  inactiveNavigatorColor: Colors.grey,
-                  monthColor: Colors.purple,
-                  onDateChange: context.watch<DataStore>().onDateChange),
-              Expanded(
-                child: listView,
-              )
-            ],
-          ),
-        ),
+        child: Padding(padding: const EdgeInsets.all(10), child: listView),
       ),
     );
   }

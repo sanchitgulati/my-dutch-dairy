@@ -49,7 +49,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void proceed() {
-    Navigator.of(context).pushReplacementNamed('/calendar');
+    Navigator.of(context).pushReplacementNamed('/home');
   }
 
   Future<bool> checkBiometrics() async {
