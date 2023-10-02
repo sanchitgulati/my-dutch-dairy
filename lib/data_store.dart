@@ -1,3 +1,4 @@
+import 'package:diary_app/journal.dart';
 import 'package:diary_app/question_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -5,6 +6,7 @@ import 'package:localstorage/localstorage.dart';
 import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
+import 'database_helper.dart';
 
 class DataStore extends ChangeNotifier {
   Random random = Random();
@@ -16,8 +18,15 @@ class DataStore extends ChangeNotifier {
 
   var selectedDate = DateTime.now();
 
+  final DatabaseHelper _databaseHelper = DatabaseHelper();
+
   DataStore() {
     init();
+  }
+
+  // Fetch data from the database
+  Future<List<Journal>> getDataFromDatabase() async {
+    return _databaseHelper.retrieve();
   }
 
   Future<void> init() async {

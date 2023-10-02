@@ -1,3 +1,4 @@
+import 'package:diary_app/dairy_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -20,7 +21,7 @@ class MyHomePage extends StatelessWidget {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Dutch Dairy'),
+        title: const Text('My Dutch Dairy'),
         automaticallyImplyLeading: false, // This line removes the back button;
       ),
       body: Column(
@@ -55,56 +56,16 @@ class MyHomePage extends StatelessWidget {
             ),
           ),
           // Scrollable view with section blocks
-          Expanded(
-            child: ListView.builder(
-              itemCount: 10, // Replace with your desired number of sections
-              itemBuilder: (context, index) {
-                // Generate sample data for each section block
-                final blockDate = now.add(Duration(days: index));
-                final formattedBlockDate =
-                    "${blockDate.day}/${blockDate.month}/${blockDate.year}";
-                final blockHeading = "Section $index";
-
-                return Container(
-                  padding: const EdgeInsets.all(16.0),
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 16.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey,
-                      width: 1.0,
-                    ),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        formattedBlockDate,
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        blockHeading,
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
+          const Expanded(
+            child: DiaryList(),
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).pushReplacementNamed('/calendar');
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
