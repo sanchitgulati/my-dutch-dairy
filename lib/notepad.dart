@@ -1,10 +1,27 @@
 import 'package:diary_app/data_store.dart';
+import 'package:diary_app/question_entity.dart';
 import 'package:flutter/material.dart';
 import 'dd_text_field.dart';
 import 'package:provider/provider.dart';
 
-class Notepad extends StatelessWidget {
+class Notepad extends StatefulWidget {
   const Notepad({Key? key}) : super(key: key);
+  State<Notepad> createState() => NotepadState();
+}
+
+class NotepadState extends State<Notepad> {
+  StoryEntity entity = StoryEntity(text: "", words: []);
+  @override
+  void initState() {
+    super.initState();
+
+    var idea = context.read<DataStore>().getNext();
+    idea.then((value) => setState(() {
+          entity = value;
+          print("idea");
+          print(entity.text);
+        }));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +31,9 @@ class Notepad extends StatelessWidget {
       );
     }
 
-    var something = context.read<DataStore>().getNext();
+    Widget dd = DdTextField(text: entity.text);
 
-    const Widget dd = DdTextField(
-        text:
-            'Ik stond buiten in de frisse lucht, mijn blik ging omhoog naar de hemel en ik vroeg me af hoe mijn dag zou worden.');
-    var words = ['ijsje', 'metro', 'werkplek', 'collega', 'uitlaatgassen'];
+    var words = entity.words;
     Widget listView = ListView(children: [
       dd,
       const SizedBox(

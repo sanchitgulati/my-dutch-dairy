@@ -19,6 +19,7 @@ class _DdTextFieldState extends State<DdTextField> {
   @override
   void initState() {
     super.initState();
+    print(widget.text);
     _controller = TextEditingController(text: widget.text);
   }
 
@@ -38,7 +39,7 @@ class _DdTextFieldState extends State<DdTextField> {
       child: Consumer<DataStore>(
         builder: (context, dataStore, _) {
           // Update the text in the TextField when DataStore is updated
-          _controller.text = dataStore.selectedQuestion.text;
+          _controller.text = widget.text;
           return TextField(
             controller: _controller,
             keyboardType: TextInputType.multiline,

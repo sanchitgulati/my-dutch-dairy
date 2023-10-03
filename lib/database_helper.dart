@@ -17,12 +17,12 @@ class DatabaseHelper {
   Future<void> init() async {
     String path = await getDatabasesPath();
     db = await openDatabase(
-      join(path, 'dairy4.db'),
+      join(path, 'dairy5.db'),
       onCreate: (database, version) async {
         await database.execute(
           """
           CREATE TABLE dairy (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY autoincrement,
             millisecondsSinceEpoch INT,
             heading TEXT,
             text TEXT
@@ -43,6 +43,28 @@ class DatabaseHelper {
     );
   }
 
+  Future<void> insertOrUpdate(Journal entry) async {
+    // Check if the entry with the same text already exists in the 'dairy' table.
+    List<Map<String, dynamic>> existingRecords = await db.query(
+      'dairy',
+      where: 'text = ?',
+      whereArgs: [entry.text],
+    );
+
+    if (existingRecords.isNotEmpty) {
+      // Update the existing record with the new data.
+      await db.update(
+        'dairy',
+        entry.toMap(),
+        where: 'id = ?',
+        whereArgs: [existingRecords.first['id']],
+      );
+    } else {
+      // Insert a new record if no matching text is found.
+      await db.insert('dairy', entry.toMap());
+    }
+  }
+
   Future<int> insert(Journal entry) async {
     int result = await db.insert('dairy', entry.toMap());
     return result;
@@ -59,7 +81,8 @@ class DatabaseHelper {
   }
 
   Future<List<Journal>> retrieve() async {
-    final List<Map<String, Object?>> queryResult = await db.query('dairy');
+    final List<Map<String, Object?>> queryResult = await db
+        .rawQuery('SELECT * FROM dairy ORDER BY millisecondsSinceEpoch DESC');
     return queryResult.map((e) => Journal.fromMap(e)).toList();
   }
 

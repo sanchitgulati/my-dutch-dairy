@@ -12,7 +12,8 @@ class DataStore extends ChangeNotifier {
   Random random = Random();
   List<StoryEntity> availableStoriesList = [];
   var currentText = "";
-  StoryEntity selectedQuestion = StoryEntity(text: "", words: []);
+  final Journal _entry =
+      Journal(millisecondsSinceEpoch: 0, heading: "", text: "");
 
   var selectedDate = DateTime.now();
 
@@ -44,23 +45,16 @@ class DataStore extends ChangeNotifier {
     }
   }
 
-  void getNext() async {
+  Future<StoryEntity> getNext() async {
     var lru = await DatabaseHelper().getRandomInventoryId();
     var q = availableStoriesList[
         lru ?? random.nextInt(availableStoriesList.length)];
-    print(q);
+    return q;
   }
 
   void updateTextField(String newValue) {
-    // selectedQuestion.text = newValue;
-    // notifyListeners();
+    _entry.text = newValue;
   }
-
-  // void onRefresh() {
-  //   _pickRandomQnA();
-  // }
-
-  void _pickRandomQnA() {}
 
   List<String> parseList(String input) {
     return input
@@ -72,36 +66,9 @@ class DataStore extends ChangeNotifier {
         .toList();
   }
 
-  void save() {}
-
-  void loadId() {
-    DatabaseHelper().retrieve();
+  void save() {
+    _entry.heading = DateFormat('dd_MMM_yyyy').format(selectedDate);
+    _entry.millisecondsSinceEpoch = DateTime.now().millisecondsSinceEpoch;
+    _databaseHelper.insertOrUpdate(_entry);
   }
-
-  // void getState(DateTime date) {
-  //   var storedData = storage.getItem(DateFormat('dd_MMM_yyyy').format(date));
-  //   QnA q;
-  //   if (storedData != null) {
-  //     q = QnA.fromJson(storedData);
-  //     _pickQ(q);
-  //     currentText = q.text;
-  //   } else {
-  //     _pickRandomQnA();
-  //   }
-  //   notifyListeners();
-  // }
-
-  // void clearStorage() async {
-  //   await storage.clear();
-  //   notifyListeners();
-  // }
-
-  // void onQuestionChange(int id) {
-  //   notifyListeners();
-  // }
-
-  // void onDateChange(DateTime date) {
-  //   selectedDate = date;
-  //   getState(date);
-  // }
 }
