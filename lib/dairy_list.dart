@@ -26,8 +26,9 @@ class DiaryList extends StatelessWidget {
             ),
           );
         } else {
-          return ListView.builder(
+          return ListView.separated(
             itemCount: snapshot.data!.length,
+            separatorBuilder: (context, index) => const Divider(),
             itemBuilder: (context, index) {
               final row = snapshot.data![index];
               final dateTime = DateTime.fromMillisecondsSinceEpoch(
@@ -43,13 +44,13 @@ class DiaryList extends StatelessWidget {
                   vertical: 8.0,
                   horizontal: 16.0,
                 ),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
+                // decoration: BoxDecoration(
+                //   border: Border.all(
+                //     color: Colors.grey,
+                //     width: 1.0,
+                //   ),
+                //   borderRadius: BorderRadius.circular(8.0),
+                // ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -60,12 +61,12 @@ class DiaryList extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
-                      blockHeading,
-                      style: const TextStyle(
-                        fontSize: 18.0,
-                      ),
-                    ),
+                    // Text(
+                    //   blockHeading,
+                    //   style: const TextStyle(
+                    //     fontSize: 18.0,
+                    //   ),
+                    // ),
                     Text(
                       blockText,
                       style: const TextStyle(

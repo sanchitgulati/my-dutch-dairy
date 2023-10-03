@@ -4,12 +4,14 @@ import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_search_bar/flutter_search_bar.dart' as searchbar;
 
-class SearchBarTableDemoHome extends StatefulWidget {
+class Vocab extends StatefulWidget {
+  const Vocab({Key? key}) : super(key: key);
+
   @override
-  _SearchBarTableDemoHomeState createState() => _SearchBarTableDemoHomeState();
+  VocabState createState() => VocabState();
 }
 
-class _SearchBarTableDemoHomeState extends State<SearchBarTableDemoHome> {
+class VocabState extends State<Vocab> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late searchbar.SearchBar searchBar;
   List<List<dynamic>> tableData = [];
@@ -17,8 +19,14 @@ class _SearchBarTableDemoHomeState extends State<SearchBarTableDemoHome> {
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
-      title: Text('Search Bar Table Demo'),
+      title: const Text('Woordenschat'),
       actions: [searchBar.getSearchAction(context)],
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
     );
   }
 
@@ -26,20 +34,19 @@ class _SearchBarTableDemoHomeState extends State<SearchBarTableDemoHome> {
     _search(value);
   }
 
-  _SearchBarTableDemoHomeState() {
+  VocabState() {
     searchBar = searchbar.SearchBar(
       inBar: false,
       buildDefaultAppBar: buildAppBar,
       setState: setState,
       onSubmitted: onSubmitted,
+      onChanged: onSubmitted,
       onCleared: () {
         setState(() {
           filteredData = tableData;
         });
       },
-      onClosed: () {
-        print("Search bar has been closed");
-      },
+      onClosed: () {},
     );
   }
 
@@ -51,7 +58,7 @@ class _SearchBarTableDemoHomeState extends State<SearchBarTableDemoHome> {
 
   Future<void> loadCSVData() async {
     String csvData = await rootBundle.loadString('assets/register.csv');
-    List<List<dynamic>> csvTable = CsvToListConverter().convert(csvData);
+    List<List<dynamic>> csvTable = const CsvToListConverter().convert(csvData);
     setState(() {
       tableData = csvTable;
       filteredData = csvTable;
@@ -75,20 +82,23 @@ class _SearchBarTableDemoHomeState extends State<SearchBarTableDemoHome> {
     return Scaffold(
       appBar: searchBar.build(context),
       key: _scaffoldKey,
-      body: SingleChildScrollView(
-        child: DataTable(
-          columns: [
-            DataColumn(label: Text('Word')),
-            DataColumn(label: Text('Meaning')),
-          ],
-          rows: filteredData.map((row) {
-            return DataRow(
-              cells: [
-                DataCell(Text(row[0].toString())),
-                DataCell(Text(row[1].toString())),
-              ],
-            );
-          }).toList(),
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: SingleChildScrollView(
+          child: DataTable(
+            columns: const [
+              DataColumn(label: Text('Word')),
+              DataColumn(label: Text('Meaning')),
+            ],
+            rows: filteredData.map((row) {
+              return DataRow(
+                cells: [
+                  DataCell(Text(row[0].toString())),
+                  DataCell(Text(row[1].toString())),
+                ],
+              );
+            }).toList(),
+          ),
         ),
       ),
     );

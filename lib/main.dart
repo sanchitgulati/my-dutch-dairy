@@ -55,11 +55,11 @@ class MyApp extends StatelessWidget {
       // ),
 
       routes: {
-        '/': (context) =>
-            SearchBarTableDemoHome(), // Route to the loading screen
+        '/': (context) => const LoadingScreen(), // Route to the loading screen
         '/next': (context) => const TutsPage(), // Route to the next screen
         '/calendar': (context) => const Calendar(), // Route to the next screen
-        '/home': (context) => MyHomePage()
+        '/home': (context) => MyHomePage(),
+        '/vocab': (context) => Vocab()
       },
     );
   }

@@ -14,6 +14,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(const Duration(seconds: 1), () {
+      // Replace 'YourNewRoute' with the route you want to navigate to after 3 seconds
+      Navigator.of(context).pushReplacementNamed('/home');
+    });
   }
 
   Future<void> authenticate() async {
@@ -96,7 +100,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         child: Column(
           children: [
             Image.asset('assets/images/logo.png'),
-            showBiometrics(),
+            // showBiometrics(),
           ],
         ),
       ),

@@ -49,7 +49,7 @@ class Calendar extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Make a story'),
+        title: const Text('Maak een verhaal'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
