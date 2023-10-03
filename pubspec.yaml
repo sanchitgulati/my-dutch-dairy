@@ -47,6 +47,8 @@ dependencies:
   sqflite: ^2.3.0
   path: ^1.8.3
   sqflite_common_ffi: ^2.3.0+2
+  csv: ^5.0.2
+  flutter_search_bar: ^3.0.0-dev.1
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +70,8 @@ flutter:
     - assets/images/logo.png
     - assets/images/lake.jpg
     - assets/questions.tsv
+    - assets/register.csv
+    - assets/stories.tsv
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

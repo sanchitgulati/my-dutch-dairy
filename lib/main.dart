@@ -4,6 +4,7 @@ import 'package:diary_app/data_store.dart';
 import 'package:diary_app/database_helper.dart';
 import 'package:diary_app/home.dart';
 import 'package:diary_app/journal.dart';
+import 'package:diary_app/vocab.dart';
 import 'calendar.dart';
 import 'tuts_page.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,8 @@ class MyApp extends StatelessWidget {
       // ),
 
       routes: {
-        '/': (context) => const LoadingScreen(), // Route to the loading screen
+        '/': (context) =>
+            SearchBarTableDemoHome(), // Route to the loading screen
         '/next': (context) => const TutsPage(), // Route to the next screen
         '/calendar': (context) => const Calendar(), // Route to the next screen
         '/home': (context) => MyHomePage()
