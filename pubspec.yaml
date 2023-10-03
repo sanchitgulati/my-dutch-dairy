@@ -69,7 +69,6 @@ flutter:
   assets:
     - assets/images/logo.png
     - assets/images/lake.jpg
-    - assets/questions.tsv
     - assets/register.csv
     - assets/stories.tsv
 

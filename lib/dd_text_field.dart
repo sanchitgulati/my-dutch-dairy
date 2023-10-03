@@ -6,7 +6,8 @@ import 'package:logger/logger.dart';
 final logger = Logger();
 
 class DdTextField extends StatefulWidget {
-  const DdTextField({super.key});
+  const DdTextField({super.key, required this.text});
+  final String text;
   @override
   State<DdTextField> createState() => _DdTextFieldState();
 }
@@ -18,7 +19,7 @@ class _DdTextFieldState extends State<DdTextField> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: text);
+    _controller = TextEditingController(text: widget.text);
   }
 
   void editingComplete() {}

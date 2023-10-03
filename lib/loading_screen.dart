@@ -16,7 +16,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     super.initState();
     Future.delayed(const Duration(seconds: 1), () {
       // Replace 'YourNewRoute' with the route you want to navigate to after 3 seconds
-      Navigator.of(context).pushReplacementNamed('/home');
+      Navigator.of(context).pushNamed('/home');
     });
   }
 
@@ -53,7 +53,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void proceed() {
-    Navigator.of(context).pushReplacementNamed('/home');
+    Navigator.of(context).pushNamed('/home');
   }
 
   Future<bool> checkBiometrics() async {

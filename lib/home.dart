@@ -63,7 +63,7 @@ class MyHomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushReplacementNamed('/calendar');
+          Navigator.of(context).pushNamed('/notepad');
         },
         child: const Icon(Icons.add),
       ),

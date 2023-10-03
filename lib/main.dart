@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:diary_app/data_store.dart';
 import 'package:diary_app/database_helper.dart';
 import 'package:diary_app/home.dart';
-import 'package:diary_app/journal.dart';
 import 'package:diary_app/vocab.dart';
-import 'calendar.dart';
+import 'notepad.dart';
 import 'tuts_page.dart';
 import 'package:flutter/material.dart';
 import 'loading_screen.dart'; // Import the loading screen
@@ -21,10 +18,6 @@ void main() async {
   databaseFactory = databaseFactoryFfi;
   DatabaseHelper databaseHelper = DatabaseHelper();
   await databaseHelper.init();
-  databaseHelper.insert(Journal(
-      millisecondsSinceEpoch: DateTime.now().microsecondsSinceEpoch,
-      heading: "My First Story",
-      text: "Jack and Jill went upto the hill"));
 
   runApp(
     /// Providers are above [MyApp] instead of inside it, so that tests
@@ -47,19 +40,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'My Dutch Dairy',
       initialRoute: '/', // Set the initial route to the loading screen
-      // theme: ThemeData(
-      //   // scaffoldBackgroundColor: Colors.blueGrey[100],
-      //   // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      //   // textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.purple)),
-      //   // useMaterial3: true,
-      // ),
+      theme: ThemeData(
+        //   // scaffoldBackgroundColor: Colors.blueGrey[100],
+        //   // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        //   // textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.purple)),
+        useMaterial3: true,
+      ),
 
       routes: {
         '/': (context) => const LoadingScreen(), // Route to the loading screen
         '/next': (context) => const TutsPage(), // Route to the next screen
-        '/calendar': (context) => const Calendar(), // Route to the next screen
+        '/notepad': (context) => const Notepad(), // Route to the next screen
         '/home': (context) => MyHomePage(),
-        '/vocab': (context) => Vocab()
+        '/vocab': (context) => const Vocab()
       },
     );
   }

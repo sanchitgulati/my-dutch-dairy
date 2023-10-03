@@ -1,20 +1,12 @@
-class QnA {
-  final String questionEnglish;
-  final String question;
+class StoryEntity {
+  final String text;
   final List<MapEntry<String, String>> words;
-  String text = '';
 
-  QnA(
-      {required this.questionEnglish,
-      required this.question,
-      required this.text,
-      required this.words});
+  StoryEntity({required this.text, required this.words});
 
-  factory QnA.fromJson(Map<String, dynamic> json) {
+  factory StoryEntity.fromJson(Map<String, dynamic> json) {
     // Extract the values from the JSON map and create a QnA instance.
-    return QnA(
-      questionEnglish: json['questionEnglish'],
-      question: json['question'],
+    return StoryEntity(
       text: json['text'],
       words: (json['words'] as List<dynamic>)
           .map(
@@ -27,8 +19,6 @@ class QnA {
     Map<String, dynamic> m = {};
 
     m['text'] = text;
-    m['question'] = question;
-    m['questionEnglish'] = questionEnglish;
     m['words'] =
         words.map((entry) => {'key': entry.key, 'value': entry.value}).toList();
 
