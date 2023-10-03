@@ -1,7 +1,6 @@
 import 'package:diary_app/data_store.dart';
 import 'package:flutter/material.dart';
 import 'dd_text_field.dart';
-import 'question.dart';
 import 'package:provider/provider.dart';
 
 class Notepad extends StatelessWidget {

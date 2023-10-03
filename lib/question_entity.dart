@@ -1,6 +1,6 @@
 class StoryEntity {
   final String text;
-  final List<MapEntry<String, String>> words;
+  final List<String> words;
 
   StoryEntity({required this.text, required this.words});
 
@@ -8,10 +8,7 @@ class StoryEntity {
     // Extract the values from the JSON map and create a QnA instance.
     return StoryEntity(
       text: json['text'],
-      words: (json['words'] as List<dynamic>)
-          .map(
-              (entry) => MapEntry<String, String>(entry['key'], entry['value']))
-          .toList(),
+      words: json['words'].toList(),
     );
   }
 
@@ -19,8 +16,7 @@ class StoryEntity {
     Map<String, dynamic> m = {};
 
     m['text'] = text;
-    m['words'] =
-        words.map((entry) => {'key': entry.key, 'value': entry.value}).toList();
+    m['words'] = words.toList();
 
     return m;
   }

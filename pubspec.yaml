@@ -68,7 +68,6 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/logo.png
-    - assets/images/lake.jpg
     - assets/register.csv
     - assets/stories.tsv
 

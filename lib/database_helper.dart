@@ -17,7 +17,7 @@ class DatabaseHelper {
   Future<void> init() async {
     String path = await getDatabasesPath();
     db = await openDatabase(
-      join(path, 'dairy3.db'),
+      join(path, 'dairy4.db'),
       onCreate: (database, version) async {
         await database.execute(
           """
@@ -29,8 +29,17 @@ class DatabaseHelper {
           )
           """,
         );
+        await database.execute('''
+          CREATE TABLE IF NOT EXISTS inventory (
+            id INTEGER PRIMARY KEY,
+            isUsed INTEGER
+          )
+      ''');
+        for (int i = 1; i <= 100; i++) {
+          await database.insert('inventory', {'id': i, 'isUsed': 0});
+        }
       },
-      version: 2,
+      version: 1,
     );
   }
 
@@ -60,5 +69,39 @@ class DatabaseHelper {
       where: "id = ?",
       whereArgs: [id],
     );
+  }
+
+  // Function to retrieve content for a given ID
+  Future<Journal?> retrieveById(int id) async {
+    List<Map<String, Object?>> result = await db.query(
+      'dairy',
+      where: "id = ?",
+      whereArgs: [id],
+    );
+    if (result.isNotEmpty) {
+      return Journal.fromMap(result.first);
+    } else {
+      return null;
+    }
+  }
+
+  // Function to get a random inventory ID that isn't already used or is the least used
+  Future<int?> getRandomInventoryId() async {
+    // Get a random ID that isn't already used orleast used
+    List<Map<String, Object?>> leastUsedId = await db.rawQuery('''
+        SELECT id FROM (SELECT id FROM inventory ORDER BY isUsed ASC LIMIT 10) ORDER BY RANDOM() LIMIT 1
+      ''');
+
+    if (leastUsedId.isNotEmpty) {
+      int id = leastUsedId.first['id'] as int;
+      // Mark the least used ID as used by incrementing isUsed by 1
+      await db.rawUpdate('''
+        UPDATE inventory SET isUsed = isUsed + 1 WHERE id = ?
+      ''', [id]);
+      return id;
+    } else {
+      // No IDs available
+      return null;
+    }
   }
 }

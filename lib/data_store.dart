@@ -10,11 +10,9 @@ import 'database_helper.dart';
 
 class DataStore extends ChangeNotifier {
   Random random = Random();
-  List<StoryEntity> qnaList = [];
+  List<StoryEntity> availableStoriesList = [];
   var currentText = "";
-  StoryEntity selectedQuestion = StoryEntity(
-      text: "", questionEnglish: "english", question: "question", words: []);
-  final LocalStorage storage = LocalStorage('some_key');
+  StoryEntity selectedQuestion = StoryEntity(text: "", words: []);
 
   var selectedDate = DateTime.now();
 
@@ -36,85 +34,49 @@ class DataStore extends ChangeNotifier {
 
       for (int i = 1; i < lines.length; i++) {
         final List<String> values = lines[i].split('\t');
-        if (values.length >= 3) {
-          qnaList.add(StoryEntity(
-              startingText: values[0],
-              question: values[1],
-              text: "",
-              words: parseKeyValuePairs(values[2])));
+        if (values.length >= 2) {
+          availableStoriesList
+              .add(StoryEntity(text: values[0], words: parseList(values[1])));
         }
       }
     } catch (e) {
       print('Error loading Q&A data: $e');
     }
-    getState(DateTime.now());
   }
 
-  void getNext() {}
-  // void updateTextField(String newValue) {
-  //   selectedQuestion.text = newValue;
-  //   notifyListeners();
-  // }
+  void getNext() async {
+    var lru = await DatabaseHelper().getRandomInventoryId();
+    var q = availableStoriesList[
+        lru ?? random.nextInt(availableStoriesList.length)];
+    print(q);
+  }
+
+  void updateTextField(String newValue) {
+    // selectedQuestion.text = newValue;
+    // notifyListeners();
+  }
 
   // void onRefresh() {
   //   _pickRandomQnA();
   // }
 
-  // void _pickRandomQnA() {
-  //   if (qnaList.isNotEmpty) {
-  //     final newQnAIndex = random.nextInt(qnaList.length);
-  //     var question = qnaList[newQnAIndex].question;
-  //     var words = qnaList[newQnAIndex].words;
-  //     var questionEnglish = qnaList[newQnAIndex].questionEnglish;
-  //     selectedQuestion = QnA(
-  //         text: "",
-  //         questionEnglish: questionEnglish,
-  //         question: question,
-  //         words: words);
-  //     notifyListeners();
-  //   }
-  // }
+  void _pickRandomQnA() {}
 
-  // void _pickQ(QnA q) {
-  //   selectedQuestion = q;
-  //   notifyListeners();
-  // }
+  List<String> parseList(String input) {
+    return input
+        .replaceAll('[', '')
+        .replaceAll(']', '')
+        .replaceAll("'", '')
+        .split(', ')
+        .map((e) => e.trim())
+        .toList();
+  }
 
-  // List<MapEntry<String, String>> parseKeyValuePairs(String input) {
-  //   // Split the input string by "-" to separate the key-value pairs
-  //   List<String> pairs = input.split('-');
+  void save() {}
 
-  //   // Remove leading and trailing spaces from each pair and filter out empty strings
-  //   pairs = pairs
-  //       .map((pair) => pair.trim())
-  //       .where((pair) => pair.isNotEmpty)
-  //       .toList();
-
-  //   // Initialize an empty list to store key-value pairs
-  //   List<MapEntry<String, String>> keyValuePairs = [];
-
-  //   // Iterate through the pairs and split them into keys and values
-  //   for (var pair in pairs) {
-  //     List<String> parts = pair.split('(');
-
-  //     if (parts.length == 2) {
-  //       String key = parts[0].trim();
-  //       String value = parts[1].replaceAll(')', '').trim();
-
-  //       // Create a MapEntry and add it to the list
-  //       keyValuePairs.add(MapEntry(key, value));
-  //     }
-  //   }
-
-  //   return keyValuePairs;
-  // }
-
-  // void save() {
-  //   var jsonDump = selectedQuestion.toJson();
-  //   storage.setItem(DateFormat('dd_MMM_yyyy').format(selectedDate), jsonDump);
-  //   print("save: ");
-  //   print(jsonDump);
-  // }
+  void loadId() {
+    DatabaseHelper().retrieve();
+  }
 
   // void getState(DateTime date) {
   //   var storedData = storage.getItem(DateFormat('dd_MMM_yyyy').format(date));
