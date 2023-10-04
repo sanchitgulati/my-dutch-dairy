@@ -2,11 +2,11 @@ import 'package:diary_app/journal.dart';
 import 'package:diary_app/question_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:localstorage/localstorage.dart';
 import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'database_helper.dart';
+import 'package:uuid/uuid.dart';
 
 class DataStore extends ChangeNotifier {
   Random random = Random();
@@ -66,9 +66,25 @@ class DataStore extends ChangeNotifier {
         .toList();
   }
 
-  void save() {
+  void newStory() {
+    var uuid = const Uuid();
+    _entry.id = uuid.v4();
+  }
+
+  bool save() {
+    if (_entry.text.isEmpty || _entry.text.length < 10) {
+      return false;
+    }
     _entry.heading = DateFormat('dd_MMM_yyyy').format(selectedDate);
     _entry.millisecondsSinceEpoch = DateTime.now().millisecondsSinceEpoch;
     _databaseHelper.insertOrUpdate(_entry);
+    notifyListeners();
+
+    return true;
+  }
+
+  void delete(String id) {
+    _databaseHelper.delete(id);
+    notifyListeners();
   }
 }

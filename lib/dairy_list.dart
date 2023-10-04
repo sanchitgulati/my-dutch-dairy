@@ -12,15 +12,18 @@ class DiaryList extends StatelessWidget {
     return FutureBuilder<List<Journal>>(
       future: context.read<DataStore>().getDataFromDatabase(),
       builder: (context, snapshot) {
+        print(snapshot);
+        print(snapshot.hasData);
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
-        } else if (!snapshot.hasData) {
+        } else if (snapshot.data?.isEmpty == true) {
           return Center(
             child: ElevatedButton(
               onPressed: () {
-                // Handle the button click to "write your first story"
+                context.read<DataStore>().newStory();
+                Navigator.of(context).pushNamed('/notepad');
               },
               child: const Text('Write your first story'),
             ),
@@ -73,6 +76,11 @@ class DiaryList extends StatelessWidget {
                         fontSize: 16.0,
                       ),
                     ),
+                    OutlinedButton(
+                        onPressed: () => {
+                              _confirm(context, row.id ?? ""),
+                            },
+                        child: const Text('Delete')),
                   ],
                 ),
               );
@@ -81,5 +89,30 @@ class DiaryList extends StatelessWidget {
         }
       },
     );
+  }
+
+  Future<bool> _confirm(BuildContext context, id) async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Are you sure?'),
+            content: const Text('Deleting the story'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => {Navigator.pop(context)},
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () {
+                  context.read<DataStore>().delete(id);
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushReplacementNamed('/home');
+                },
+                child: const Text('Confirm'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
   }
 }

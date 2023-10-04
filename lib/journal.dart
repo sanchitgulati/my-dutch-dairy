@@ -1,5 +1,5 @@
 class Journal {
-  int? id;
+  String? id;
   int millisecondsSinceEpoch;
   String heading;
   String text;

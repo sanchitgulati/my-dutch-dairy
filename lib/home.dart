@@ -1,8 +1,15 @@
 import 'package:diary_app/dairy_list.dart';
+import 'package:diary_app/data_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'dart:io';
+
+import 'package:path/path.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // Get the current date
@@ -19,55 +26,95 @@ class MyHomePage extends StatelessWidget {
     } else {
       greeting = 'Goedenavond';
     }
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Dutch Dairy'),
-        automaticallyImplyLeading: false, // This line removes the back button;
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 50,
-          ),
-          // Section with today's date and greeting
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    formattedDate,
-                    style: const TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
+
+    return WillPopScope(
+      onWillPop: () async {
+        return _onWillPop(context);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('My Dutch Dairy'),
+          automaticallyImplyLeading:
+              false, // This line removes the back button;
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 50,
+            ),
+            // Section with today's date and greeting
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      formattedDate,
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Text(
-                    greeting,
-                    style: const TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
+                    Text(
+                      greeting,
+                      style: const TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          // Scrollable view with section blocks
-          const Expanded(
-            child: DiaryList(),
-          )
-        ],
+            // Scrollable view with section blocks
+            const Expanded(
+              child: DiaryList(),
+            )
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            context.read<DataStore>().newStory();
+            Navigator.of(context).pushNamed('/notepad');
+          },
+          child: const Icon(Icons.add),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed('/notepad');
-        },
-        child: const Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
+  }
+
+  Future<bool> _onWillPop(BuildContext context) async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Are you sure?'),
+            content: const Text('Do you want to exit an App'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => {Navigator.of(context).pop(false)},
+                child: const Text('No'),
+              ),
+              TextButton(
+                onPressed: () => {exitApp(context)},
+                child: const Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
+  void exitApp(context) {
+    if (Platform.isAndroid) {
+      SystemNavigator.pop(); // This line exits the app on Android.
+    } else {
+      // Handle app exit for other platforms, if necessary.
+      // On iOS, you can't programmatically exit the app.
+      // You can leave this part empty or provide alternative handling.
+      return Navigator.of(context).pop(true);
+    }
   }
 }

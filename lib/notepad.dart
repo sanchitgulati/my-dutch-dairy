@@ -3,6 +3,7 @@ import 'package:diary_app/question_entity.dart';
 import 'package:flutter/material.dart';
 import 'dd_text_field.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_dialogs/flutter_dialogs.dart';
 
 class Notepad extends StatefulWidget {
   const Notepad({Key? key}) : super(key: key);
@@ -18,9 +19,44 @@ class NotepadState extends State<Notepad> {
     var idea = context.read<DataStore>().getNext();
     idea.then((value) => setState(() {
           entity = value;
-          print("idea");
-          print(entity.text);
         }));
+  }
+
+  void _showAlert(BuildContext context) {
+    showPlatformDialog(
+      context: context,
+      builder: (_) => BasicDialogAlert(
+        title: const Text("Confirmation"),
+        content: const Text(
+            "Your Story has been saved. You can view it in the home page."),
+        actions: <Widget>[
+          BasicDialogAction(
+            title: const Text("OK"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showErrorAlert(BuildContext context, {String text = ""}) {
+    showPlatformDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Error"),
+        content: Text(text),
+        actions: <Widget>[
+          BasicDialogAction(
+            title: const Text("OK"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -53,7 +89,11 @@ class NotepadState extends State<Notepad> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16))),
         onPressed: () {
-          context.read<DataStore>().save();
+          if (context.read<DataStore>().save()) {
+            _showAlert(context);
+          } else {
+            _showErrorAlert(context, text: "Please enter a valid story");
+          }
         },
         child: const Text('Done'),
       ),

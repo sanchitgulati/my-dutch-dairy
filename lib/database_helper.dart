@@ -17,12 +17,12 @@ class DatabaseHelper {
   Future<void> init() async {
     String path = await getDatabasesPath();
     db = await openDatabase(
-      join(path, 'dairy5.db'),
+      join(path, 'dairy6.db'),
       onCreate: (database, version) async {
         await database.execute(
           """
           CREATE TABLE dairy (
-            id INTEGER PRIMARY KEY autoincrement,
+            id TEXT PRIMARY KEY,
             millisecondsSinceEpoch INT,
             heading TEXT,
             text TEXT
@@ -86,7 +86,7 @@ class DatabaseHelper {
     return queryResult.map((e) => Journal.fromMap(e)).toList();
   }
 
-  Future<void> delete(int id) async {
+  Future<void> delete(String id) async {
     await db.delete(
       'dairy',
       where: "id = ?",

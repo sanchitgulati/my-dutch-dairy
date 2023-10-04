@@ -9,13 +9,18 @@ import 'loading_screen.dart'; // Import the loading screen
 import 'package:provider/provider.dart';
 
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'dart:io' show Platform;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sqfliteFfiInit();
   // Change the default factory. On iOS/Android, if not using `sqlite_flutter_lib` you can forget
   // this step, it will use the sqlite version available on the system.
-  databaseFactory = databaseFactoryFfi;
+  if (Platform.isAndroid) {
+    // Android-specific code
+  } else {
+    databaseFactory = databaseFactoryFfi;
+  }
   DatabaseHelper databaseHelper = DatabaseHelper();
   await databaseHelper.init();
 

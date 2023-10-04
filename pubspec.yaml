@@ -49,6 +49,8 @@ dependencies:
   sqflite_common_ffi: ^2.3.0+2
   csv: ^5.0.2
   flutter_search_bar: ^3.0.0-dev.1
+  flutter_dialogs: ^3.0.0
+  uuid: ^4.1.0
 
 dev_dependencies:
   flutter_test:
