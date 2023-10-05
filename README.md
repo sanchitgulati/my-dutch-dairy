@@ -5,7 +5,9 @@ This is a Flutter application developed for personal learning purposes, aimed at
 ## Packages
 
 - `flutter_keyboard_visibility`
-- `intl``provider``sqflite`
+- `intl`
+- `provider`
+- `sqflite`
 - `flutter_search_bar`
 - `flutter_dialogs`
 - `uuid`
