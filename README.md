@@ -1,4 +1,4 @@
-# Flutter Learning App
+# My Dutch Dairy
 
 This is a Flutter application developed for personal learning purposes, aimed at improving knowledge of Flutter and Dart. The app utilizes various libraries to enhance its functionality and user experience. 
 
@@ -49,12 +49,12 @@ This will build and install the app on your Android device or emulator.
 
 ## Screenshots and Video
 
-![Screenshot 1](documentation\screenshot_1.png)
-![Screenshot 2](documentation\screenshot_2.png)
-![Screenshot 3](documentation\screenshot_3.png)
-![Screenshot 4](documentation\screenshot_4.png)
-![Screenshot 5](documentation\screenshot_5.png)
-![Screenshot 6](documentation\screenshot_6.png)
+![Screenshot 1](documentation/screenshot_1.png)
+![Screenshot 2](documentation/screenshot_2.png)
+![Screenshot 3](documentation/screenshot_3.png)
+![Screenshot 4](documentation/screenshot_4.png)
+![Screenshot 5](documentation/screenshot_5.png)
+![Screenshot 6](documentation/screenshot_6.png)
 
 
 ## Additional Information
