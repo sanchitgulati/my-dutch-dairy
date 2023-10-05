@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
-
-import 'package:path/path.dart';
+import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:provider/provider.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -87,7 +86,7 @@ class MyHomePage extends StatelessWidget {
   }
 
   Future<bool> _onWillPop(BuildContext context) async {
-    return (await showDialog(
+    return (await showPlatformDialog(
           context: context,
           builder: (context) => AlertDialog(
             title: const Text('Are you sure?'),

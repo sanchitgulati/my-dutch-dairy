@@ -1,21 +1,64 @@
-# diary_app
+# Flutter Learning App
 
-A new Flutter project.
+This is a Flutter application developed for personal learning purposes, aimed at improving knowledge of Flutter and Dart. The app utilizes various libraries to enhance its functionality and user experience. 
+
+## Packages
+
+- `flutter_keyboard_visibility`
+- `intl``provider``sqflite`
+- `flutter_search_bar`
+- `flutter_dialogs`
+- `uuid`
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To set up and compile this Flutter application on your Windows machine and Android device, follow these steps:
 
-A few resources to get you started if this is your first Flutter project:
+### Prerequisites
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- [Flutter SDK](https://flutter.dev/docs/get-started/install) installed on your Windows machine.
+- Android Studio or Visual Studio Code with Flutter plugins installed.
+- Android emulator or a physical Android device connected to your development machine.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Clone the Repository
 
+```bash
+git clone <url>
+cd dairy-app
+```
 
-## Libs
+### Install Dependencies
 
-- ChandAbdullah/horizontal_week_calendar
+Run the following command in your project directory to install the required dependencies:
+
+```bash
+flutter pub get
+```
+
+### Run the Application
+
+Make sure your Android emulator is running or your physical Android device is connected to your machine.
+
+To run the app, use the following command:
+
+```bash
+flutter run
+```
+
+This will build and install the app on your Android device or emulator.
+
+## Screenshots and Video
+
+```
+TODO
+```
+
+## Additional Information
+
+- This project is for personal learning purposes only.
+- Feel free to explore the code, experiment with it, and customize it to suit your needs.
+- If you encounter any issues or have questions, please don't hesitate to reach out for assistance.
+
+Happy learning with Flutter and Dart! 🚀
+
+![Flutter Logo](https://storage.googleapis.com/cms-storage-bucket/6a07d8a62f4308d2b854.svg)

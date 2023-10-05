@@ -28,14 +28,41 @@ class NotepadState extends State<Notepad> {
       builder: (_) => BasicDialogAlert(
         title: const Text("Confirmation"),
         content: const Text(
-            "Your Story has been saved. You can view it in the home page."),
+            "Your Story has been saved. You can view it on the home page."),
         actions: <Widget>[
           BasicDialogAction(
             title: const Text("OK"),
             onPressed: () {
               Navigator.pop(context);
+              Navigator.of(context).popAndPushNamed('/home');
             },
           ),
+        ],
+      ),
+    );
+  }
+
+  Future<dynamic> _confirmDiscard(BuildContext context) {
+    return showPlatformDialog(
+      context: context,
+      builder: (_) => BasicDialogAlert(
+        title: const Text("Confirmation"),
+        content: const Text(
+            "Discard current story and go back to home page ? You can't undo this action."),
+        actions: <Widget>[
+          BasicDialogAction(
+            title: const Text("OK"),
+            onPressed: () {
+              Navigator.of(context).pop(true);
+              Navigator.of(context).pushReplacementNamed('/home');
+            },
+          ),
+          BasicDialogAction(
+            title: const Text("Cancel"),
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+          )
         ],
       ),
     );
@@ -57,6 +84,10 @@ class NotepadState extends State<Notepad> {
         ],
       ),
     );
+  }
+
+  Future<bool> _onWillPop(BuildContext context) async {
+    return (await _confirmDiscard(context)) ?? false;
   }
 
   @override
@@ -99,26 +130,31 @@ class NotepadState extends State<Notepad> {
       ),
     ]);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Maak een verhaal'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
+    return WillPopScope(
+      onWillPop: () async {
+        return _onWillPop(context);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Make a story'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                Navigator.of(context).pushNamed('/vocab');
+              },
+            )
+          ],
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.of(context).pushNamed('/vocab');
+              _confirmDiscard(context);
             },
-          )
-        ],
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).popAndPushNamed('/home');
-          },
+          ),
         ),
-      ),
-      body: SafeArea(
-        child: Padding(padding: const EdgeInsets.all(10), child: listView),
+        body: SafeArea(
+          child: Padding(padding: const EdgeInsets.all(10), child: listView),
+        ),
       ),
     );
   }

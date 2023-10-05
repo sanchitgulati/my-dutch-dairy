@@ -12,8 +12,6 @@ class DiaryList extends StatelessWidget {
     return FutureBuilder<List<Journal>>(
       future: context.read<DataStore>().getDataFromDatabase(),
       builder: (context, snapshot) {
-        print(snapshot);
-        print(snapshot.hasData);
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
