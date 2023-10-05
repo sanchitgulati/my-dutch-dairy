@@ -1,5 +1,5 @@
-import 'package:diary_app/journal.dart';
-import 'package:diary_app/question_entity.dart';
+import 'package:diary_app/entities/journal.dart';
+import 'package:diary_app/entities/story.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';

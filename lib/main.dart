@@ -1,11 +1,9 @@
 import 'package:diary_app/data_store.dart';
 import 'package:diary_app/database_helper.dart';
 import 'package:diary_app/home.dart';
-import 'package:diary_app/vocab.dart';
+import 'package:diary_app/glossary.dart';
 import 'notepad.dart';
-import 'tuts_page.dart';
 import 'package:flutter/material.dart';
-import 'loading_screen.dart'; // Import the loading screen
 import 'package:provider/provider.dart';
 
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -53,11 +51,9 @@ class MyApp extends StatelessWidget {
       ),
 
       routes: {
-        '/': (context) => const LoadingScreen(), // Route to the loading screen
-        '/next': (context) => const TutsPage(), // Route to the next screen
+        '/': (context) => const MyHomePage(),
         '/notepad': (context) => const Notepad(), // Route to the next screen
-        '/home': (context) => MyHomePage(),
-        '/vocab': (context) => const Vocab()
+        '/vocab': (context) => const Glossary()
       },
     );
   }

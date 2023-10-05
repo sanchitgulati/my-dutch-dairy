@@ -4,14 +4,14 @@ import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_search_bar/flutter_search_bar.dart' as searchbar;
 
-class Vocab extends StatefulWidget {
-  const Vocab({Key? key}) : super(key: key);
+class Glossary extends StatefulWidget {
+  const Glossary({Key? key}) : super(key: key);
 
   @override
-  VocabState createState() => VocabState();
+  GlossaryState createState() => GlossaryState();
 }
 
-class VocabState extends State<Vocab> {
+class GlossaryState extends State<Glossary> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late searchbar.SearchBar searchBar;
   List<List<dynamic>> tableData = [];
@@ -19,7 +19,7 @@ class VocabState extends State<Vocab> {
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
-      title: const Text('Woordenschat'),
+      title: const Text('Glossary'),
       actions: [searchBar.getSearchAction(context)],
       leading: IconButton(
         icon: const Icon(Icons.arrow_back),
@@ -34,7 +34,7 @@ class VocabState extends State<Vocab> {
     _search(value);
   }
 
-  VocabState() {
+  GlossaryState() {
     searchBar = searchbar.SearchBar(
       inBar: false,
       buildDefaultAppBar: buildAppBar,

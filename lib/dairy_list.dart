@@ -1,5 +1,5 @@
 import 'package:diary_app/data_store.dart';
-import 'package:diary_app/journal.dart';
+import 'package:diary_app/entities/journal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -36,7 +36,6 @@ class DiaryList extends StatelessWidget {
                   row.millisecondsSinceEpoch);
               final formattedBlockDate = DateFormat('EEEE, MMMM d')
                   .format(dateTime); // Format the date
-              final blockHeading = row.heading;
               final blockText = row.text;
 
               return Container(
@@ -45,13 +44,6 @@ class DiaryList extends StatelessWidget {
                   vertical: 8.0,
                   horizontal: 16.0,
                 ),
-                // decoration: BoxDecoration(
-                //   border: Border.all(
-                //     color: Colors.grey,
-                //     width: 1.0,
-                //   ),
-                //   borderRadius: BorderRadius.circular(8.0),
-                // ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -62,12 +54,6 @@ class DiaryList extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    // Text(
-                    //   blockHeading,
-                    //   style: const TextStyle(
-                    //     fontSize: 18.0,
-                    //   ),
-                    // ),
                     Text(
                       blockText,
                       style: const TextStyle(
@@ -104,7 +90,7 @@ class DiaryList extends StatelessWidget {
                 onPressed: () {
                   context.read<DataStore>().delete(id);
                   Navigator.of(context).pop();
-                  Navigator.of(context).pushReplacementNamed('/home');
+                  Navigator.of(context).pushReplacementNamed('/');
                 },
                 child: const Text('Confirm'),
               ),

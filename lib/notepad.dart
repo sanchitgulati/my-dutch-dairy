@@ -1,5 +1,5 @@
 import 'package:diary_app/data_store.dart';
-import 'package:diary_app/question_entity.dart';
+import 'package:diary_app/entities/story.dart';
 import 'package:flutter/material.dart';
 import 'dd_text_field.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +34,7 @@ class NotepadState extends State<Notepad> {
             title: const Text("OK"),
             onPressed: () {
               Navigator.pop(context);
-              Navigator.of(context).popAndPushNamed('/home');
+              Navigator.of(context).popAndPushNamed('/');
             },
           ),
         ],
@@ -54,7 +54,7 @@ class NotepadState extends State<Notepad> {
             title: const Text("OK"),
             onPressed: () {
               Navigator.of(context).pop(true);
-              Navigator.of(context).pushReplacementNamed('/home');
+              Navigator.of(context).pushReplacementNamed('/');
             },
           ),
           BasicDialogAction(
