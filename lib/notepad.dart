@@ -28,13 +28,19 @@ class NotepadState extends State<Notepad> {
       builder: (_) => BasicDialogAlert(
         title: const Text("Confirmation"),
         content: const Text(
-            "Your Story has been saved. You can view it on the home page."),
+            "Save the story and go back to home page ? You can't undo this action."),
         actions: <Widget>[
           BasicDialogAction(
             title: const Text("OK"),
             onPressed: () {
-              Navigator.pop(context);
-              Navigator.of(context).popAndPushNamed('/');
+              Navigator.of(context).pop(true);
+              Navigator.of(context).pushReplacementNamed('/');
+            },
+          ),
+          BasicDialogAction(
+            title: const Text("Cancel"),
+            onPressed: () {
+              Navigator.of(context).pop(false);
             },
           ),
         ],
