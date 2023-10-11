@@ -1,6 +1,7 @@
 import 'package:diary_app/data_store.dart';
 import 'package:diary_app/database_helper.dart';
 import 'package:diary_app/home.dart';
+import 'package:diary_app/language_translation_view.dart';
 import 'package:diary_app/glossary.dart';
 import 'notepad.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,8 @@ class MyApp extends StatelessWidget {
       ),
 
       routes: {
-        '/': (context) => const MyHomePage(),
+        '/': (context) => MyHomePage(),
+        '/translate': (context) => LanguageTranslatorView(),
         '/notepad': (context) => const Notepad(), // Route to the next screen
         '/vocab': (context) => const Glossary()
       },

@@ -39,6 +39,12 @@ class MyHomePage extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            TextButton(
+              onPressed: () => {
+                Navigator.of(context).pushNamed('/translate'),
+              },
+              child: const Text('Translate'),
+            ),
             const SizedBox(
               height: 50,
             ),
